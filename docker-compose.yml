@@ -69,6 +69,7 @@ services:
       - ./volumes/nginx/data/certbot/conf:/etc/letsencrypt
       - ./volumes/nginx/data/certbot/www:/var/www/certbot
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
   certbot:
     image: certbot/certbot
     restart: unless-stopped
@@ -76,3 +77,10 @@ services:
       - ./volumes/nginx/data/certbot/conf:/etc/letsencrypt
       - ./volumes/nginx/data/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./volumes/prometheus/etc/prometheus:/etc/prometheus:rw
