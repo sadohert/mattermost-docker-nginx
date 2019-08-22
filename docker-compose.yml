@@ -95,3 +95,18 @@ services:
     volumes:
       - ./grafana/data/provisioning:/etc/grafana/provisioning:rw
       - ./grafana/data/dashboards:/etc/grafana/dashboards:rw
+
+  splunkenterprise: 
+    #build: . 
+    hostname: splunkenterprise 
+    image: splunk/splunk:latest 
+    ports:
+            - "8000:8000"
+            - "9997:9997"
+            - "8088:8088"
+            - "1514:1514"
+    environment: 
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_ENABLE_LISTEN=9997 
+      - SPLUNK_ADD="tcp 1514" 
+      - SPLUNK_PASSWORD=F5zmWlv48nvY
