@@ -3,9 +3,7 @@ version: "3"
 services:
 
   splunkenterprise: 
-    #build: . 
-    hostname: splunkenterprise 
-    image: splunk/splunk:latest 
+    build: splunk 
     ports:
             - "8000:8000"
             - "9997:9997"
@@ -42,6 +40,7 @@ services:
       #   - PUID=1000
       #   - PGID=1000
     restart: unless-stopped
+    hostname: mattermost
     depends_on: 
       - splunkenterprise
     volumes:
@@ -61,7 +60,7 @@ services:
     logging:
             driver: splunk
             options:
-                    splunk-url: "https://172.19.0.5:8088"
+                    splunk-url: "https://localhost:8088"
                     splunk-token: "c94b7fbf-c35d-45d4-a28a-c6f326fb3f57"
                     splunk-insecureskipverify: "true"
 
