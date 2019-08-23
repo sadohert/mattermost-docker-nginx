@@ -1,3 +1,3 @@
 FROM splunk/splunk:latest
 
-COPY mattermost-metrics.py /opt/splunk/etc/apps/search/bin
+ADD mattermost-metrics.py /opt/splunk/bin/scripts
