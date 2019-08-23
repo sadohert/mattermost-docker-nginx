@@ -14,6 +14,9 @@ services:
       - SPLUNK_ENABLE_LISTEN=9997 
       - SPLUNK_ADD="tcp 1514" 
       - SPLUNK_PASSWORD=F5zmWlv48nvY
+    volumes:
+      - ./volumes/splunk/var:/opt/splunk/var/
+      - ./volumes/splunk/etc:/opt/splunk/etc/
   db:
     build: db
     read_only: true
@@ -61,7 +64,7 @@ services:
             driver: splunk
             options:
                     splunk-url: "https://localhost:8088"
-                    splunk-token: "c94b7fbf-c35d-45d4-a28a-c6f326fb3f57"
+                    splunk-token: "78b3adda-9f02-47d1-bad2-04dc19a429a4"
                     splunk-insecureskipverify: "true"
 
 #  web:
