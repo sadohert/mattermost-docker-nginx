@@ -15,10 +15,13 @@ services:
       - SPLUNK_ADD="tcp 1514" 
       - SPLUNK_PASSWORD=F5zmWlv48nvY
     volumes:
+      - ./volumes/splunk/stu:/opt/splunk/stu/
       - ./volumes/splunk/var:/opt/splunk/var/
       - ./volumes/splunk/etc:/opt/splunk/etc/
   db:
     build: db
+    ports:
+            - "5432:5432"
     read_only: true
     restart: unless-stopped
     volumes:
@@ -61,11 +64,12 @@ services:
       # in case your config is not in default location
       #- MM_CONFIG=/mattermost/config/config.json
     logging:
-            driver: splunk
-            options:
-                    splunk-url: "https://localhost:8088"
-                    splunk-token: "78b3adda-9f02-47d1-bad2-04dc19a429a4"
-                    splunk-insecureskipverify: "true"
+      driver: splunk
+      options:
+        splunk-url: "https://localhost:8088"
+        splunk-token: "78b3adda-9f02-47d1-bad2-04dc19a429a4"
+        splunk-insecureskipverify: "true"
+        splunk-format: "json"
 
 #  web:
 #    build: web
@@ -119,3 +123,11 @@ services:
     volumes:
       - ./grafana/data/provisioning:/etc/grafana/provisioning:rw
       - ./grafana/data/dashboards:/etc/grafana/dashboards:rw
+  simplesaml:
+    image: kristophjunge/test-saml-idp
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    environment:
+      - SIMPLESAMLPHP_SP_ENTITY_ID=sd-saml
+      - SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE=https://mattermost.stuartdoherty.com/login/sso/saml
